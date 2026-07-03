@@ -8,51 +8,45 @@ public class movement : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
-    private bool isGrounded = false;
+
+    private bool isGrounded = true;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
         float move = 0f;
 
-        if (Input.GetKey(KeyCode.D))
-        {
+        if (Input.GetKey(KeyCode.RightArrow))
             move = 1f;
-        }
 
-        if (Input.GetKey(KeyCode.A))
-        {
+        if (Input.GetKey(KeyCode.LeftArrow))
             move = -1f;
-        }
 
         if (move > 0)
-        {
             spriteRenderer.flipX = false;
-        }
 
         if (move < 0)
-        {
             spriteRenderer.flipX = true;
-        }
 
         rb.linearVelocity = new Vector2(move * speed, rb.linearVelocity.y);
 
-        animator.SetBool("isRunning", move != 0f);
-
-        if (Input.GetKeyDown(KeyCode.W) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jump);
             isGrounded = false;
         }
+
+        animator.SetBool("isRunning", move != 0 && isGrounded);
+        animator.SetBool("isJumping", !isGrounded);
     }
 
-    void OnCollisionStay2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
@@ -60,7 +54,7 @@ public class movement : MonoBehaviour
         }
     }
 
-    void OnCollisionExit2D(Collision2D collision)
+    private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
