@@ -7,12 +7,14 @@ public class movement : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator animator;
+    private SpriteRenderer spriteRenderer;
     private bool isGrounded = false;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -29,18 +31,25 @@ public class movement : MonoBehaviour
             move = -1f;
         }
 
+        if (move > 0)
+        {
+            spriteRenderer.flipX = false;
+        }
+
+        if (move < 0)
+        {
+            spriteRenderer.flipX = true;
+        }
+
         rb.linearVelocity = new Vector2(move * speed, rb.linearVelocity.y);
+
+        animator.SetBool("isRunning", move != 0f);
 
         if (Input.GetKeyDown(KeyCode.W) && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jump);
             isGrounded = false;
         }
-
-        bool isMoving = move != 0f;
-        bool isJumping = !isGrounded;
-
-        animator.enabled = !isMoving && !isJumping;
     }
 
     void OnCollisionStay2D(Collision2D collision)
