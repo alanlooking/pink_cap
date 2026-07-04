@@ -21,7 +21,7 @@ public class EnemyPatrol : MonoBehaviour
         {
             transform.position = Vector2.MoveTowards(transform.position, rightPoint.position, speed * Time.deltaTime);
 
-            if (Vector2.Distance(transform.position, rightPoint.position) < 0.05f)
+            if (Vector2.Distance(transform.position, rightPoint.position) < 0.1f)
             {
                 movingRight = false;
             }
@@ -30,7 +30,7 @@ public class EnemyPatrol : MonoBehaviour
         {
             transform.position = Vector2.MoveTowards(transform.position, leftPoint.position, speed * Time.deltaTime);
 
-            if (Vector2.Distance(transform.position, leftPoint.position) < 0.05f)
+            if (Vector2.Distance(transform.position, leftPoint.position) < 0.1f)
             {
                 movingRight = true;
             }
