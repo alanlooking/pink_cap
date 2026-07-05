@@ -1015,6 +1015,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2651958540332137673, guid: a78c515c113b7464687bea8316fa4687, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3168212342568114877, guid: a78c515c113b7464687bea8316fa4687, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.187174
@@ -1059,6 +1063,10 @@ PrefabInstance:
       propertyPath: tilemap
       value: 
       objectReference: {fileID: 1429934332}
+    - target: {fileID: 6380649937749386184, guid: a78c515c113b7464687bea8316fa4687, type: 3}
+      propertyPath: deathCircleRect
+      value: 
+      objectReference: {fileID: 1763870029}
     - target: {fileID: 7775332021242227510, guid: a78c515c113b7464687bea8316fa4687, type: 3}
       propertyPath: m_Name
       value: Hero
@@ -11693,6 +11701,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fee19976291cd4041b39952fb7e21235, type: 3}
+--- !u!224 &1763870029 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 914572236275238614, guid: b06d7723dbb20084b8ea3994c7071490, type: 3}
+  m_PrefabInstance: {fileID: 2133723550}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1830961504
 PrefabInstance:
   m_ObjectHideFlags: 0

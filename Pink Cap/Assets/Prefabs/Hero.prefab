@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 8793639957104055765, guid: a1404aa6c03366f41b1e387a16f79c52, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.625, y: 0.96875}
@@ -131,7 +131,7 @@ Rigidbody2D:
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 3
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 591aa6cf7f63d8a41894eaaebc6ee8bd, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -192,7 +192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 11
-  jump: 13
+  jump: 15
   acceleration: 20
   deceleration: 19
   wallCheckDistance: 0.5
@@ -214,6 +214,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restartDelay: 1
+  fadeCanvasGroup: {fileID: 0}
+  finalLine1: {fileID: 0}
+  finalLine2: {fileID: 0}
+  mainMenuSceneName: Level 1
+  deathCircleRect: {fileID: 0}
+  circleExpandSpeed: 20
 --- !u!114 &6041588003300768461
 MonoBehaviour:
   m_ObjectHideFlags: 0

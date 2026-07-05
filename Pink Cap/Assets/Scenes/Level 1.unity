@@ -385,6 +385,11 @@ CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 255438915202134599, guid: b06d7723dbb20084b8ea3994c7071490, type: 3}
   m_PrefabInstance: {fileID: 962185778809395798}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &968989827 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 914572236275238614, guid: b06d7723dbb20084b8ea3994c7071490, type: 3}
+  m_PrefabInstance: {fileID: 962185778809395798}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1058156480
 GameObject:
   m_ObjectHideFlags: 0
@@ -8776,6 +8781,10 @@ PrefabInstance:
       propertyPath: wallCheckDistance
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2651958540332137673, guid: a78c515c113b7464687bea8316fa4687, type: 3}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3168212342568114877, guid: a78c515c113b7464687bea8316fa4687, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.32
@@ -8824,6 +8833,10 @@ PrefabInstance:
       propertyPath: blocks.Array.data[0].state1
       value: 
       objectReference: {fileID: 11400000, guid: b103b2ccdaca46d4ca214b5bd54f354c, type: 2}
+    - target: {fileID: 6380649937749386184, guid: a78c515c113b7464687bea8316fa4687, type: 3}
+      propertyPath: deathCircleRect
+      value: 
+      objectReference: {fileID: 968989827}
     - target: {fileID: 7775332021242227510, guid: a78c515c113b7464687bea8316fa4687, type: 3}
       propertyPath: m_Name
       value: Hero

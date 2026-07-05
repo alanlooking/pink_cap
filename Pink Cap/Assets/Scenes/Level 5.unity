@@ -633,7 +633,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 9101278813714116849, guid: ef10335a1edf9c64f8a9fed6fa3dbd1a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.25, y: 1.8125}
@@ -1476,10 +1476,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3124892013031979743, guid: b06d7723dbb20084b8ea3994c7071490, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3258028473161525048, guid: b06d7723dbb20084b8ea3994c7071490, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1572,6 +1568,11 @@ PrefabInstance:
 --- !u!225 &968151030 stripped
 CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 255438915202134599, guid: b06d7723dbb20084b8ea3994c7071490, type: 3}
+  m_PrefabInstance: {fileID: 968151029}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &968151031 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 914572236275238614, guid: b06d7723dbb20084b8ea3994c7071490, type: 3}
   m_PrefabInstance: {fileID: 968151029}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1051667491
@@ -11468,25 +11469,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 560523345420083970, guid: a78c515c113b7464687bea8316fa4687, type: 3}
-      propertyPath: jump
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 560523345420083970, guid: a78c515c113b7464687bea8316fa4687, type: 3}
-      propertyPath: wallCheckDistance
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2651958540332137673, guid: a78c515c113b7464687bea8316fa4687, type: 3}
-      propertyPath: m_FlipX
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3168212342568114877, guid: a78c515c113b7464687bea8316fa4687, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.52
+      value: 14.68
       objectReference: {fileID: 0}
     - target: {fileID: 3168212342568114877, guid: a78c515c113b7464687bea8316fa4687, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.68
+      value: -2.58
       objectReference: {fileID: 0}
     - target: {fileID: 3168212342568114877, guid: a78c515c113b7464687bea8316fa4687, type: 3}
       propertyPath: m_LocalPosition.z
@@ -11524,10 +11513,6 @@ PrefabInstance:
       propertyPath: tilemap
       value: 
       objectReference: {fileID: 1429934332}
-    - target: {fileID: 6041588003300768461, guid: a78c515c113b7464687bea8316fa4687, type: 3}
-      propertyPath: blocks.Array.data[0].state1
-      value: 
-      objectReference: {fileID: 11400000, guid: b103b2ccdaca46d4ca214b5bd54f354c, type: 2}
     - target: {fileID: 6380649937749386184, guid: a78c515c113b7464687bea8316fa4687, type: 3}
       propertyPath: finalLine1
       value: 
@@ -11537,6 +11522,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 840704438}
     - target: {fileID: 6380649937749386184, guid: a78c515c113b7464687bea8316fa4687, type: 3}
+      propertyPath: deathCircleRect
+      value: 
+      objectReference: {fileID: 968151031}
+    - target: {fileID: 6380649937749386184, guid: a78c515c113b7464687bea8316fa4687, type: 3}
       propertyPath: fadeCanvasGroup
       value: 
       objectReference: {fileID: 968151030}
@@ -11544,10 +11533,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hero
       objectReference: {fileID: 0}
-    - target: {fileID: 8252123772299259252, guid: a78c515c113b7464687bea8316fa4687, type: 3}
-      propertyPath: m_Material
-      value: 
-      objectReference: {fileID: 6200000, guid: 591aa6cf7f63d8a41894eaaebc6ee8bd, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
