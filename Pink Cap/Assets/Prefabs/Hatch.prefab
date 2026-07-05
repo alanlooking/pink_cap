@@ -109,9 +109,6 @@ MonoBehaviour:
   openHeight: 2
   openSpeed: 2
   animationDuration: 1
-  nextSceneName: Level 2
-  fadeDuration: 1
-  fadeCanvasGroup: {fileID: 0}
   hatchAudioSource: {fileID: 4075657497476528463}
   hatchOpenClip: {fileID: 8300000, guid: 2e2a243e7a7da2d4eb1a3f1939a72131, type: 3}
   tileActivateClip: {fileID: 8300000, guid: cc2fa96bfac76c841a152c46cf05c307, type: 3}
@@ -172,11 +169,11 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.0017871857, y: -1.0263398}
+  m_Offset: {x: 0.0061006546, y: 0.0055601597}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -186,7 +183,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.7540207, y: 4.0273204}
+  m_Size: {x: 0.75694466, y: 1.9635205}
   m_EdgeRadius: 0
 --- !u!95 &5462151842478740187
 Animator:
