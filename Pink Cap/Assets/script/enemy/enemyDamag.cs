@@ -1,43 +1,87 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class enemydamag : MonoBehaviour
 {
-    public float bounceForce = 7f;
+    [Header("Настройки плиток-ловушек")]
+    [SerializeField] private Tilemap tilemap;
+    [Tooltip("Сюда перетащи только плитки СТАДИИ 3 (которые горят постоянно)")]
+    [SerializeField] private TileBase[] lethalTiles;
+
+    [Header("Проверка пола")]
+    [SerializeField] private float checkDistance = 0.6f;
+    [SerializeField] private LayerMask groundLayer;
 
     private Animator animator;
+    private bool isDead = false;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+
+        // Автоматический поиск тайлмепа на сцене, если забыл привязать в инспекторе
+        if (tilemap == null)
+        {
+            tilemap = FindFirstObjectByType<Tilemap>();
+        }
+    }
+
+    private void Update()
+    {
+        if (!isDead)
+        {
+            CheckForLethalTile();
+        }
+    }
+
+    private void CheckForLethalTile()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, checkDistance, groundLayer);
+
+        if (hit.collider != null)
+        {
+            Vector3 hitPoint = hit.point + (Vector2.down * 0.02f);
+            Vector3Int cellPosition = tilemap.WorldToCell(hitPoint);
+            TileBase currentTile = tilemap.GetTile(cellPosition);
+
+            if (currentTile == null) return;
+
+            // Проверяем, стоит ли враг на смертоносном тайле (стадия 3)
+            for (int i = 0; i < lethalTiles.Length; i++)
+            {
+                if (currentTile == lethalTiles[i])
+                {
+                    Die();
+                    break;
+                }
+            }
+        }
+    }
+
+    private void Die()
+    {
+        isDead = true;
+
+        animator.SetBool("isDead", true);
+
+        // Отключаем компоненты, чтобы враг не двигался и никого не трогал
+        GetComponent<Collider2D>().enabled = false;
+
+        if (GetComponent<EnemyPatrol>() != null)
+            GetComponent<EnemyPatrol>().enabled = false;
+
+        GetComponent<Rigidbody2D>().simulated = false;
+
+        Destroy(gameObject, 0.65f);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!collision.gameObject.CompareTag("Player"))
-            return;
+        if (isDead) return;
 
-      
-        if (collision.transform.position.y > transform.position.y + 0.3f)
+        // Если это игрок — он всегда получает урон (прыжки сверху больше не спасают)
+        if (collision.gameObject.CompareTag("Player"))
         {
-            Rigidbody2D playerRb = collision.gameObject.GetComponent<Rigidbody2D>();
-
-            if (playerRb != null)
-            {
-                playerRb.linearVelocity =
-                    new Vector2(playerRb.linearVelocity.x, bounceForce);
-            }
-
-            animator.SetBool("isDead", true);
-
-            GetComponent<Collider2D>().enabled = false;
-            GetComponent<EnemyPatrol>().enabled = false;
-            GetComponent<Rigidbody2D>().simulated = false;
-
-            Destroy(gameObject, 0.65f);
-        }
-        else
-        {
-  
             PlayerDeath playerDeath = collision.gameObject.GetComponent<PlayerDeath>();
 
             if (playerDeath != null)

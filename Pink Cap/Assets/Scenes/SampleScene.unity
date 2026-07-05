@@ -205,7 +205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  jump: 10
+  jump: 13
 --- !u!50 &78487750
 Rigidbody2D:
   serializedVersion: 5
@@ -1208,7 +1208,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4ac85e780e70ec408998e18686c7dc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bounceForce: 7
+  tilemap: {fileID: 1429934332}
+  lethalTiles:
+  - {fileID: 11400000, guid: 50f218d154f0fec439f9004ed94c5cd3, type: 2}
+  - {fileID: 11400000, guid: dee772dad4af46e48a7f72231538e3be, type: 2}
+  - {fileID: 11400000, guid: dad451fda4dce1445a7b25902be4d2eb, type: 2}
+  checkDistance: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!114 &6496318588852678122
 MonoBehaviour:
   m_ObjectHideFlags: 0
