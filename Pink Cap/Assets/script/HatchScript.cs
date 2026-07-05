@@ -80,7 +80,7 @@ public class Hatch : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (isOpened && collision.CompareTag("Player") && !isTransitioning)
+        if (isOpened && collision.CompareTag("Player") && !isTransitioning && !string.IsNullOrEmpty(nextSceneName))
         {
             StartCoroutine(TransitionToNextLevel());
         }
