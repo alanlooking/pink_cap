@@ -18,6 +18,10 @@ public class movement : MonoBehaviour
     [SerializeField] private float coyoteTime = 0.15f;
     [SerializeField] private float jumpCutMultiplier = 0.5f;
 
+    [Header("Звук прыжка")]
+    [SerializeField] private AudioSource movementAudioSource;
+    [SerializeField] private AudioClip jumpClip;
+
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
@@ -91,6 +95,11 @@ public class movement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && coyoteTimeCounter > 0f)
         {
+            if (movementAudioSource != null && jumpClip != null)
+            {
+                movementAudioSource.PlayOneShot(jumpClip);
+            }
+
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jump);
             coyoteTimeCounter = 0f;
         }

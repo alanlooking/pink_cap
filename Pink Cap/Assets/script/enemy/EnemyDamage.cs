@@ -19,7 +19,6 @@ public class enemydamag : MonoBehaviour
     {
         animator = GetComponent<Animator>();
 
-        
         if (tilemap == null)
         {
             tilemap = FindFirstObjectByType<Tilemap>();
@@ -46,7 +45,6 @@ public class enemydamag : MonoBehaviour
 
             if (currentTile == null) return;
 
-            
             for (int i = 0; i < lethalTiles.Length; i++)
             {
                 if (currentTile == lethalTiles[i])
@@ -62,6 +60,11 @@ public class enemydamag : MonoBehaviour
     {
         isDead = true;
 
+        if (UiAudioManager.Instance != null)
+        {
+            UiAudioManager.Instance.PlayRobotDeath();
+        }
+
         animator.SetBool("isDead", true);
 
         GetComponent<Collider2D>().enabled = false;
@@ -71,13 +74,11 @@ public class enemydamag : MonoBehaviour
 
         GetComponent<Rigidbody2D>().simulated = false;
 
-        // --- НАШЕ ДОБАВЛЕНИЕ ---
         Hatch hatch = FindFirstObjectByType<Hatch>();
         if (hatch != null)
         {
             hatch.OnEnemyDestroyed();
         }
-        // -----------------------
 
         Destroy(gameObject, 0.65f);
     }
@@ -86,7 +87,6 @@ public class enemydamag : MonoBehaviour
     {
         if (isDead) return;
 
-        
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerDeath playerDeath = collision.gameObject.GetComponent<PlayerDeath>();

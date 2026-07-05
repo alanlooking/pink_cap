@@ -1,11 +1,15 @@
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 
 public class DeathButton : MonoBehaviour
 {
     [Header("UI Подсказка")]
     [SerializeField] private GameObject hintCanvas;
-    [SerializeField] private Text hintText; 
+    [SerializeField] private Text hintText;
+
+    [Header("Звуковые эффекты")]
+    [SerializeField] private AudioSource buttonAudioSource;
+    [SerializeField] private AudioClip finalClickClip;
 
     private bool isActive = false;
     private bool playerInside = false;
@@ -25,7 +29,6 @@ public class DeathButton : MonoBehaviour
 
             if (pressCount == 1)
             {
-                
                 if (hintText != null)
                 {
                     hintText.text = CONFIRM_HINT;
@@ -33,7 +36,11 @@ public class DeathButton : MonoBehaviour
             }
             else if (pressCount >= 2)
             {
-                
+                if (buttonAudioSource != null && finalClickClip != null)
+                {
+                    buttonAudioSource.PlayOneShot(finalClickClip);
+                }
+
                 TriggerPlayerDeath();
             }
         }
@@ -42,7 +49,7 @@ public class DeathButton : MonoBehaviour
     public void ActivateButton()
     {
         isActive = true;
-        
+
         if (playerInside)
         {
             ShowHint(FIRST_HINT);
@@ -55,7 +62,6 @@ public class DeathButton : MonoBehaviour
 
         if (playerDeathScript != null)
         {
-            
             playerDeathScript.Die(true);
         }
     }
@@ -75,7 +81,7 @@ public class DeathButton : MonoBehaviour
         {
             hintCanvas.SetActive(false);
         }
-        pressCount = 0; 
+        pressCount = 0;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

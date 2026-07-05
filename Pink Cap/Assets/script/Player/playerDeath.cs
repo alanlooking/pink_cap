@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 
 public class PlayerDeath : MonoBehaviour
 {
@@ -9,13 +9,17 @@ public class PlayerDeath : MonoBehaviour
 
     [Header("Компоненты финальных титров (только для финала)")]
     [SerializeField] private CanvasGroup fadeCanvasGroup;
-    [SerializeField] private Text finalLine1; 
-    [SerializeField] private Text finalLine2; 
+    [SerializeField] private Text finalLine1;
+    [SerializeField] private Text finalLine2;
     [SerializeField] private string mainMenuSceneName = "MainMenu";
 
     [Header("Эффект обычной смерти")]
     [SerializeField] private RectTransform deathCircleRect;
-    [SerializeField] private float circleExpandSpeed = 20f; 
+    [SerializeField] private float circleExpandSpeed = 20f;
+
+    [Header("Звук Смерти")]
+    [SerializeField] private AudioSource playerAudioSource;
+    [SerializeField] private AudioClip deathClip;
 
     private bool isDead = false;
     private Rigidbody2D rb;
@@ -40,6 +44,11 @@ public class PlayerDeath : MonoBehaviour
 
         isDead = true;
 
+        if (playerAudioSource != null && deathClip != null)
+        {
+            playerAudioSource.PlayOneShot(deathClip);
+        }
+
         if (animator != null)
         {
             animator.SetBool("isDeath", true);
@@ -60,31 +69,24 @@ public class PlayerDeath : MonoBehaviour
         }
         else
         {
-            
             StartCoroutine(DeathCircleSequence());
         }
     }
 
     private IEnumerator DeathCircleSequence()
     {
-        
-        
         yield return new WaitForSeconds(0.65f);
 
-        
         if (deathCircleRect != null && mainCamera != null)
         {
-            
             Vector2 screenPosition = mainCamera.WorldToScreenPoint(transform.position);
 
-            
             deathCircleRect.position = screenPosition;
             deathCircleRect.localScale = Vector3.zero;
             deathCircleRect.gameObject.SetActive(true);
 
-            
             float currentScale = 0f;
-            
+
             while (currentScale < 35f)
             {
                 currentScale += circleExpandSpeed * Time.deltaTime;
@@ -93,10 +95,7 @@ public class PlayerDeath : MonoBehaviour
             }
         }
 
-        
         yield return new WaitForSeconds(0.2f);
-
-        
         RestartLevel();
     }
 

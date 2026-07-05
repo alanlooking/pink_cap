@@ -19,40 +19,36 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        
-        ShowMainMenu();
+        mainMenuPanel.SetActive(true);
+        levelsPanel.SetActive(false);
+
         if (introCanvasGroup != null)
         {
             introCanvasGroup.gameObject.SetActive(false);
         }
     }
 
-    
-
     public void StartGame()
     {
-        
+        if (UiAudioManager.Instance != null) UiAudioManager.Instance.PlayButtonClick();
+
         if (introCanvasGroup != null)
         {
             StartCoroutine(IntroSequence());
         }
         else
         {
-            
             SceneManager.LoadScene("Level 1");
         }
     }
 
     private IEnumerator IntroSequence()
     {
-        
         mainMenuPanel.SetActive(false);
 
-        
         introCanvasGroup.alpha = 0f;
         introCanvasGroup.gameObject.SetActive(true);
 
-        
         float time = 0;
         while (time < introFadeDuration)
         {
@@ -62,10 +58,8 @@ public class MainMenu : MonoBehaviour
         }
         introCanvasGroup.alpha = 1f;
 
-        
         yield return new WaitForSeconds(introDisplayTime);
 
-        
         time = 0;
         while (time < introFadeDuration)
         {
@@ -75,12 +69,13 @@ public class MainMenu : MonoBehaviour
         }
         introCanvasGroup.alpha = 0f;
 
-        
-        SceneManager.LoadScene("Level 1"); 
+        SceneManager.LoadScene("Level 1");
     }
 
     public void OpenLevelsMenu()
     {
+        if (UiAudioManager.Instance != null) UiAudioManager.Instance.PlayButtonClick();
+
         mainMenuPanel.SetActive(false);
         levelsPanel.SetActive(true);
 
@@ -103,20 +98,34 @@ public class MainMenu : MonoBehaviour
 
     public void ShowMainMenu()
     {
+
+        if (UiAudioManager.Instance != null) UiAudioManager.Instance.PlayButtonClick();
+
         mainMenuPanel.SetActive(true);
         levelsPanel.SetActive(false);
     }
 
-    
-
     public void LoadSpecificLevel(string levelName)
     {
+
+        if (UiAudioManager.Instance != null) UiAudioManager.Instance.PlayButtonClick();
+
         SceneManager.LoadScene(levelName);
     }
 
     public void ResetProgress()
     {
+      
+        if (UiAudioManager.Instance != null) UiAudioManager.Instance.PlayButtonClick();
+
         PlayerPrefs.DeleteKey("ReachedLevel");
-        OpenLevelsMenu();
+
+        mainMenuPanel.SetActive(false);
+        levelsPanel.SetActive(true);
+
+        for (int i = 0; i < levelButtons.Length; i++)
+        {
+            levelButtons[i].interactable = (i == 0); 
+        }
     }
 }

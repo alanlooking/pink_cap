@@ -278,3 +278,4 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  robotDeathClip: {fileID: 8300000, guid: 599a3516b1ac8c64fa2200ea9a63180a, type: 3}

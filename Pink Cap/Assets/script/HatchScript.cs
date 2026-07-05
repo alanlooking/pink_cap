@@ -20,6 +20,11 @@ public class Hatch : MonoBehaviour
     [SerializeField] private float fadeDuration = 1f;
     [SerializeField] private CanvasGroup fadeCanvasGroup;
 
+    [Header("Звуковые эффекты")]
+    [SerializeField] private AudioSource hatchAudioSource;
+    [SerializeField] private AudioClip hatchOpenClip;
+    [SerializeField] private AudioClip tileActivateClip;
+
     private int totalTilesToActivate = 0;
     private int activeEnemiesCount = 0;
     private bool shouldOpen = false;
@@ -95,6 +100,10 @@ public class Hatch : MonoBehaviour
     {
         if (activatedPositions.Add(position))
         {
+            if (hatchAudioSource != null && tileActivateClip != null)
+            {
+                hatchAudioSource.PlayOneShot(tileActivateClip);
+            }
             CheckConditions();
         }
     }
@@ -115,6 +124,11 @@ public class Hatch : MonoBehaviour
 
     private IEnumerator OpenProcess()
     {
+        if (hatchAudioSource != null && hatchOpenClip != null)
+        {
+            hatchAudioSource.PlayOneShot(hatchOpenClip);
+        }
+
         if (animator != null)
         {
             animator.SetTrigger("Open");
@@ -158,7 +172,6 @@ public class Hatch : MonoBehaviour
             fadeCanvasGroup.alpha = 1f;
         }
 
-        
         if (!string.IsNullOrEmpty(nextSceneName) && nextSceneName.StartsWith("Level "))
         {
             string levelNumberString = nextSceneName.Replace("Level ", "");
@@ -166,11 +179,10 @@ public class Hatch : MonoBehaviour
             {
                 int currentSavedLevel = PlayerPrefs.GetInt("ReachedLevel", 1);
 
-                
                 if (nextLevelNumber > currentSavedLevel)
                 {
                     PlayerPrefs.SetInt("ReachedLevel", nextLevelNumber);
-                    PlayerPrefs.Save(); 
+                    PlayerPrefs.Save();
                 }
             }
         }
