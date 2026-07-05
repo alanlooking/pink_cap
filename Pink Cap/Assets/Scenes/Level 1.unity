@@ -190,6 +190,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 7201674236339034466, guid: a8b5873026c96004d9aa66f407ad0704, type: 3}
+      propertyPath: tilemap
+      value: 
+      objectReference: {fileID: 1429934332}
     - target: {fileID: 7983230814399806262, guid: a8b5873026c96004d9aa66f407ad0704, type: 3}
       propertyPath: m_Name
       value: Enemy (1)

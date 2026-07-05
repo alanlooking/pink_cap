@@ -195,10 +195,12 @@ MonoBehaviour:
   jump: 13
   acceleration: 20
   deceleration: 19
-  wallCheckDistance: 0.35
+  wallCheckDistance: 0.5
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  coyoteTime: 0.15
+  jumpCutMultiplier: 0.5
 --- !u!114 &6380649937749386184
 MonoBehaviour:
   m_ObjectHideFlags: 0
