@@ -1556,6 +1556,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5403911337902751163, guid: b06d7723dbb20084b8ea3994c7071490, type: 3}
+      propertyPath: m_ReferenceResolution.x
+      value: 1920
+      objectReference: {fileID: 0}
+    - target: {fileID: 5403911337902751163, guid: b06d7723dbb20084b8ea3994c7071490, type: 3}
+      propertyPath: m_ReferenceResolution.y
+      value: 1080
+      objectReference: {fileID: 0}
     - target: {fileID: 8458123426287442842, guid: b06d7723dbb20084b8ea3994c7071490, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -11471,11 +11479,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3168212342568114877, guid: a78c515c113b7464687bea8316fa4687, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.68
+      value: 17.17
       objectReference: {fileID: 0}
     - target: {fileID: 3168212342568114877, guid: a78c515c113b7464687bea8316fa4687, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.58
+      value: 8.02
       objectReference: {fileID: 0}
     - target: {fileID: 3168212342568114877, guid: a78c515c113b7464687bea8316fa4687, type: 3}
       propertyPath: m_LocalPosition.z

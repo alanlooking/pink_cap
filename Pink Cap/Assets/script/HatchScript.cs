@@ -67,7 +67,6 @@ public class Hatch : MonoBehaviour
 
     void Update()
     {
-        
         if (Input.GetKeyDown(KeyCode.P) && !shouldOpen && !isOpened)
         {
             StartCoroutine(OpenProcess());
@@ -157,6 +156,23 @@ public class Hatch : MonoBehaviour
         if (fadeCanvasGroup != null)
         {
             fadeCanvasGroup.alpha = 1f;
+        }
+
+        
+        if (!string.IsNullOrEmpty(nextSceneName) && nextSceneName.StartsWith("Level "))
+        {
+            string levelNumberString = nextSceneName.Replace("Level ", "");
+            if (int.TryParse(levelNumberString, out int nextLevelNumber))
+            {
+                int currentSavedLevel = PlayerPrefs.GetInt("ReachedLevel", 1);
+
+                
+                if (nextLevelNumber > currentSavedLevel)
+                {
+                    PlayerPrefs.SetInt("ReachedLevel", nextLevelNumber);
+                    PlayerPrefs.Save(); 
+                }
+            }
         }
 
         SceneManager.LoadScene(nextSceneName);
