@@ -55,7 +55,8 @@ public class DeathButton : MonoBehaviour
 
         if (playerDeathScript != null)
         {
-            playerDeathScript.Die();
+            
+            playerDeathScript.Die(true);
         }
     }
 
