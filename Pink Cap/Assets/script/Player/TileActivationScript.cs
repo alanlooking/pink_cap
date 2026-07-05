@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections;
-using System.Collections.Generic; // Нужно для HashSet
+using System.Collections.Generic;
 
 public class PlayerTileAnimator : MonoBehaviour
 {
@@ -19,18 +19,19 @@ public class PlayerTileAnimator : MonoBehaviour
     [SerializeField] private BlockAnimationData[] blocks;
 
     [Header("Настройки анимации")]
-    [Tooltip("Скорость перехода со 2 на 3 стадию (в секундах)")]
     [SerializeField] private float animationDelay = 0.1f;
 
     [Header("Проверка пола (Raycast)")]
     [SerializeField] private float checkDistance = 0.6f;
     [SerializeField] private LayerMask groundLayer;
 
-    // Защита от спама корутин (хранит блоки, которые СЕЙЧАС меняют фазу)
     private HashSet<Vector3Int> animatedTiles = new HashSet<Vector3Int>();
+    private Hatch hatch;
 
     void Start()
     {
+        hatch = FindFirstObjectByType<Hatch>();
+
         if (tilemap == null)
         {
             tilemap = FindFirstObjectByType<Tilemap>();
@@ -40,6 +41,16 @@ public class PlayerTileAnimator : MonoBehaviour
     void Update()
     {
         CheckFloorTile();
+    }
+
+    public bool IsInitialTile(TileBase tile)
+    {
+        if (tile == null) return false;
+        for (int i = 0; i < blocks.Length; i++)
+        {
+            if (tile == blocks[i].state1) return true;
+        }
+        return false;
     }
 
     private void CheckFloorTile()
@@ -53,23 +64,15 @@ public class PlayerTileAnimator : MonoBehaviour
             TileBase currentTile = tilemap.GetTile(cellPosition);
 
             if (currentTile == null) return;
-
-            
             if (animatedTiles.Contains(cellPosition)) return;
 
             for (int i = 0; i < blocks.Length; i++)
             {
-                
                 if (currentTile == blocks[i].state1)
                 {
                     animatedTiles.Add(cellPosition);
-
-                    
                     tilemap.SetTile(cellPosition, blocks[i].state2);
-
-                    
                     StartCoroutine(PlayFinalFrame(cellPosition, blocks[i].state3));
-
                     break;
                 }
             }
@@ -83,9 +86,13 @@ public class PlayerTileAnimator : MonoBehaviour
         if (tilemap.GetTile(position) != null)
         {
             tilemap.SetTile(position, finalTile);
+
+            if (hatch != null)
+            {
+                hatch.OnTileActivated(position);
+            }
         }
 
-        
         animatedTiles.Remove(position);
     }
 }

@@ -64,13 +64,20 @@ public class enemydamag : MonoBehaviour
 
         animator.SetBool("isDead", true);
 
-        
         GetComponent<Collider2D>().enabled = false;
 
         if (GetComponent<EnemyPatrol>() != null)
             GetComponent<EnemyPatrol>().enabled = false;
 
         GetComponent<Rigidbody2D>().simulated = false;
+
+        // --- НАШЕ ДОБАВЛЕНИЕ ---
+        Hatch hatch = FindFirstObjectByType<Hatch>();
+        if (hatch != null)
+        {
+            hatch.OnEnemyDestroyed();
+        }
+        // -----------------------
 
         Destroy(gameObject, 0.65f);
     }
