@@ -11771,6 +11771,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2238247890484894887, guid: b06d7723dbb20084b8ea3994c7071490, type: 3}
+      propertyPath: fadeCanvasGroup
+      value: 
+      objectReference: {fileID: 2133723551}
     - target: {fileID: 3258028473161525048, guid: b06d7723dbb20084b8ea3994c7071490, type: 3}
       propertyPath: m_Pivot.x
       value: 0
