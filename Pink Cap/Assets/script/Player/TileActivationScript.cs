@@ -1,21 +1,22 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections;
+using System.Collections.Generic; // Нужно для HashSet
 
 public class PlayerTileAnimator : MonoBehaviour
 {
     [System.Serializable]
     public struct BlockAnimationData
     {
-        public string blockName; // Для удобства в инспекторе (например, "Земля", "Металл")
-        public TileBase state1;  // Исходный блок (выключен)
-        public TileBase state2;  // Кадр анимации (загорается)
-        public TileBase state3;  // Финальный блок (горит постоянно)
+        public string blockName;
+        public TileBase state1;
+        public TileBase state2;
+        public TileBase state3;
     }
 
     [Header("Компоненты")]
     [SerializeField] private Tilemap tilemap;
-    [SerializeField] private BlockAnimationData[] blocks; // Твои 3 вида блоков
+    [SerializeField] private BlockAnimationData[] blocks;
 
     [Header("Настройки анимации")]
     [Tooltip("Скорость перехода со 2 на 3 стадию (в секундах)")]
@@ -24,6 +25,17 @@ public class PlayerTileAnimator : MonoBehaviour
     [Header("Проверка пола (Raycast)")]
     [SerializeField] private float checkDistance = 0.6f;
     [SerializeField] private LayerMask groundLayer;
+
+    // Защита от спама корутин (хранит блоки, которые СЕЙЧАС меняют фазу)
+    private HashSet<Vector3Int> animatedTiles = new HashSet<Vector3Int>();
+
+    void Start()
+    {
+        if (tilemap == null)
+        {
+            tilemap = FindFirstObjectByType<Tilemap>();
+        }
+    }
 
     void Update()
     {
@@ -36,39 +48,44 @@ public class PlayerTileAnimator : MonoBehaviour
 
         if (hit.collider != null)
         {
-            // Смещение внутрь тайла для точности
-            Vector3 hitPoint = hit.point + (Vector2.down * 0.05f);
+            Vector3 hitPoint = hit.point + (Vector2.down * 0.02f);
             Vector3Int cellPosition = tilemap.WorldToCell(hitPoint);
             TileBase currentTile = tilemap.GetTile(cellPosition);
 
             if (currentTile == null) return;
 
-            // Ищем, относится ли текущий тайл к начальной стадии какого-то из 3-х видов блоков
+            
+            if (animatedTiles.Contains(cellPosition)) return;
+
             for (int i = 0; i < blocks.Length; i++)
             {
+                
                 if (currentTile == blocks[i].state1)
                 {
-                    // Шаг 1: Мгновенно включаем вторую стадию
+                    animatedTiles.Add(cellPosition);
+
+                    
                     tilemap.SetTile(cellPosition, blocks[i].state2);
 
-                    // Шаг 2: Запускаем таймер, который сам додует анимацию до 3 стадии
+                    
                     StartCoroutine(PlayFinalFrame(cellPosition, blocks[i].state3));
 
-                    break; // Выходим из цикла, так как блок уже найден и изменен
+                    break;
                 }
             }
         }
     }
 
-    // Этот мини-таймер срабатывает один раз и гарантирует, что блок станет третьим
     private IEnumerator PlayFinalFrame(Vector3Int position, TileBase finalTile)
     {
         yield return new WaitForSeconds(animationDelay);
 
-        // На всякий случай проверяем, существует ли еще тайл (вдруг игрок его сломал механикой игры)
         if (tilemap.GetTile(position) != null)
         {
             tilemap.SetTile(position, finalTile);
         }
+
+        
+        animatedTiles.Remove(position);
     }
 }

@@ -19,7 +19,7 @@ public class enemydamag : MonoBehaviour
     {
         animator = GetComponent<Animator>();
 
-        // Автоматический поиск тайлмепа на сцене, если забыл привязать в инспекторе
+        
         if (tilemap == null)
         {
             tilemap = FindFirstObjectByType<Tilemap>();
@@ -46,7 +46,7 @@ public class enemydamag : MonoBehaviour
 
             if (currentTile == null) return;
 
-            // Проверяем, стоит ли враг на смертоносном тайле (стадия 3)
+            
             for (int i = 0; i < lethalTiles.Length; i++)
             {
                 if (currentTile == lethalTiles[i])
@@ -64,7 +64,7 @@ public class enemydamag : MonoBehaviour
 
         animator.SetBool("isDead", true);
 
-        // Отключаем компоненты, чтобы враг не двигался и никого не трогал
+        
         GetComponent<Collider2D>().enabled = false;
 
         if (GetComponent<EnemyPatrol>() != null)
@@ -79,7 +79,7 @@ public class enemydamag : MonoBehaviour
     {
         if (isDead) return;
 
-        // Если это игрок — он всегда получает урон (прыжки сверху больше не спасают)
+        
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerDeath playerDeath = collision.gameObject.GetComponent<PlayerDeath>();

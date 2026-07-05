@@ -2,14 +2,22 @@ using UnityEngine;
 
 public class movement : MonoBehaviour
 {
-    public float speed = 5f;
-    public float jump = 7f;
+    [Header("Настройки скорости")]
+    public float speed = 14f;
+    public float jump = 13f;
+
+    [Header("Инерция")]
+    [Tooltip("Как быстро разгоняется (чем выше, тем быстрее наберет макс. скорость)")]
+    public float acceleration = 20f;
+    [Tooltip("Как быстро тормозит / скользит (чем ниже, тем длиннее тормозной путь)")]
+    public float deceleration = 15f;
 
     private Rigidbody2D rb;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
     private bool isGrounded = true;
+    private float currentHorizontalSpeed = 0f; 
 
     void Start()
     {
@@ -20,29 +28,43 @@ public class movement : MonoBehaviour
 
     void Update()
     {
-        float move = 0f;
+        float targetMove = 0f;
 
+      
         if (Input.GetKey(KeyCode.RightArrow))
-            move = 1f;
-
+            targetMove = 1f;
         if (Input.GetKey(KeyCode.LeftArrow))
-            move = -1f;
+            targetMove = -1f;
 
-        if (move > 0)
+        
+        if (targetMove > 0)
             spriteRenderer.flipX = false;
-
-        if (move < 0)
+        if (targetMove < 0)
             spriteRenderer.flipX = true;
 
-        rb.linearVelocity = new Vector2(move * speed, rb.linearVelocity.y);
+       
+        float targetSpeed = targetMove * speed;
 
+
+        float rate = (targetMove != 0 && Mathf.Sign(targetMove) == Mathf.Sign(currentHorizontalSpeed))
+            ? acceleration
+            : deceleration;
+
+        
+        currentHorizontalSpeed = Mathf.MoveTowards(currentHorizontalSpeed, targetSpeed, rate * Time.deltaTime);
+
+        
+        rb.linearVelocity = new Vector2(currentHorizontalSpeed, rb.linearVelocity.y);
+
+        
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jump);
             isGrounded = false;
         }
 
-        animator.SetBool("isRunning", move != 0 && isGrounded);
+        
+        animator.SetBool("isRunning", Mathf.Abs(currentHorizontalSpeed) > 0.1f && isGrounded);
         animator.SetBool("isJumping", !isGrounded);
     }
 
