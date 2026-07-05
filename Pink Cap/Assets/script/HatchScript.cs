@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -14,9 +15,16 @@ public class Hatch : MonoBehaviour
     [SerializeField] private float openSpeed = 2f;
     [SerializeField] private float animationDuration = 1f;
 
+    [Header("Переход на следующий уровень")]
+    [SerializeField] private string nextSceneName;
+    [SerializeField] private float fadeDuration = 1f;
+    [SerializeField] private CanvasGroup fadeCanvasGroup;
+
     private int totalTilesToActivate = 0;
     private int activeEnemiesCount = 0;
     private bool shouldOpen = false;
+    private bool isOpened = false;
+    private bool isTransitioning = false;
     private Vector3 targetPosition;
 
     private HashSet<Vector3Int> activatedPositions = new HashSet<Vector3Int>();
@@ -64,8 +72,17 @@ public class Hatch : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, openSpeed * Time.deltaTime);
             if (transform.position == targetPosition)
             {
-                enabled = false;
+                shouldOpen = false;
+                isOpened = true;
             }
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (isOpened && collision.CompareTag("Player") && !isTransitioning)
+        {
+            StartCoroutine(TransitionToNextLevel());
         }
     }
 
@@ -85,7 +102,7 @@ public class Hatch : MonoBehaviour
 
     private void CheckConditions()
     {
-        if (activatedPositions.Count >= totalTilesToActivate && activeEnemiesCount <= 0 && !shouldOpen)
+        if (activatedPositions.Count >= totalTilesToActivate && activeEnemiesCount <= 0 && !shouldOpen && !isOpened)
         {
             StartCoroutine(OpenProcess());
         }
@@ -101,5 +118,41 @@ public class Hatch : MonoBehaviour
         yield return new WaitForSeconds(animationDuration);
 
         shouldOpen = true;
+    }
+
+    private IEnumerator TransitionToNextLevel()
+    {
+        isTransitioning = true;
+
+        movement playerMovement = FindFirstObjectByType<movement>();
+        if (playerMovement != null)
+        {
+            playerMovement.enabled = false;
+        }
+
+        Rigidbody2D playerRb = playerMovement?.GetComponent<Rigidbody2D>();
+        if (playerRb != null)
+        {
+            playerRb.linearVelocity = Vector2.zero;
+            playerRb.bodyType = RigidbodyType2D.Kinematic;
+        }
+
+        float time = 0;
+        while (time < fadeDuration)
+        {
+            time += Time.deltaTime;
+            if (fadeCanvasGroup != null)
+            {
+                fadeCanvasGroup.alpha = Mathf.Lerp(0f, 1f, time / fadeDuration);
+            }
+            yield return null;
+        }
+
+        if (fadeCanvasGroup != null)
+        {
+            fadeCanvasGroup.alpha = 1f;
+        }
+
+        SceneManager.LoadScene(nextSceneName);
     }
 }

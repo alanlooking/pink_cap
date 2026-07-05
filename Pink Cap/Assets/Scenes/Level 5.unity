@@ -10736,6 +10736,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 238357713761973789, guid: caf5dd5359f92004799bb9ca20859a46, type: 3}
+      propertyPath: nextSceneName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 238357713761973789, guid: caf5dd5359f92004799bb9ca20859a46, type: 3}
       propertyPath: targetTilemap
       value: 
       objectReference: {fileID: 1429934332}
