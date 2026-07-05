@@ -3,16 +3,20 @@ using UnityEngine;
 public class movement : MonoBehaviour
 {
     [Header("Настройки скорости")]
-    public float speed = 5f;
-    public float jump = 7f;
+    public float speed = 11f;
+    public float jump = 15f;
 
     [Header("Инерция")]
     public float acceleration = 20f;
-    public float deceleration = 15f;
+    public float deceleration = 19f;
 
     [Header("Проверка стен")]
-    [SerializeField] private float wallCheckDistance = 0.35f;
+    [SerializeField] private float wallCheckDistance = 0.5f;
     [SerializeField] private LayerMask groundLayer;
+
+    [Header("Дополнительные настройки прыжка")]
+    [SerializeField] private float coyoteTime = 0.15f;
+    [SerializeField] private float jumpCutMultiplier = 0.5f;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -21,6 +25,7 @@ public class movement : MonoBehaviour
 
     private bool isGrounded = true;
     private float currentHorizontalSpeed = 0f;
+    private float coyoteTimeCounter;
 
     void Start()
     {
@@ -75,10 +80,24 @@ public class movement : MonoBehaviour
 
         rb.linearVelocity = new Vector2(currentHorizontalSpeed, rb.linearVelocity.y);
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (isGrounded)
+        {
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && coyoteTimeCounter > 0f)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jump);
-            isGrounded = false;
+            coyoteTimeCounter = 0f;
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space) && rb.linearVelocity.y > 0f)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, rb.linearVelocity.y * jumpCutMultiplier);
         }
 
         animator.SetBool("isRunning", Mathf.Abs(currentHorizontalSpeed) > 0.1f && isGrounded);
