@@ -67,6 +67,12 @@ public class Hatch : MonoBehaviour
 
     void Update()
     {
+        
+        if (Input.GetKeyDown(KeyCode.P) && !shouldOpen && !isOpened)
+        {
+            StartCoroutine(OpenProcess());
+        }
+
         if (shouldOpen)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, openSpeed * Time.deltaTime);

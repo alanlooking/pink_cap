@@ -5,7 +5,9 @@ public class GirlDisappear : MonoBehaviour
     [Header("Настройки")]
     [SerializeField] private float disappearDistance = 2f;
     [SerializeField] private string disappearTriggerName = "Disappear";
-    [SerializeField] private float destroyDelay = 1f;
+
+    [Header("Ссылка на кнопку смерти")]
+    [SerializeField] private DeathButton targetButton;
 
     private Transform playerTransform;
     private Animator animator;
@@ -24,7 +26,15 @@ public class GirlDisappear : MonoBehaviour
 
     void Update()
     {
-        if (isDisappearing || playerTransform == null) return;
+        if (isDisappearing) return;
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            StartDisappearing();
+            return;
+        }
+
+        if (playerTransform == null) return;
 
         float distance = Vector2.Distance(transform.position, playerTransform.position);
 
@@ -43,7 +53,21 @@ public class GirlDisappear : MonoBehaviour
             animator.SetTrigger(disappearTriggerName);
         }
 
-        Destroy(gameObject, destroyDelay);
+        
+        if (targetButton != null)
+        {
+            targetButton.ActivateButton();
+        }
+
+        
+        Invoke(nameof(DisableCharacter), 1.5f);
+    }
+
+    private void DisableCharacter()
+    {
+        GetComponent<SpriteRenderer>().enabled = false;
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null) col.enabled = false;
     }
 
     private void OnDrawGizmosSelected()
