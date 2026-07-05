@@ -1,15 +1,18 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections;
 using System.Collections.Generic;
 
 public class Hatch : MonoBehaviour
 {
     [Header("Компоненты")]
     [SerializeField] private Tilemap targetTilemap;
+    [SerializeField] private Animator animator;
 
     [Header("Настройки открытия")]
     [SerializeField] private float openHeight = 2f;
     [SerializeField] private float openSpeed = 2f;
+    [SerializeField] private float animationDuration = 1f;
 
     private int totalTilesToActivate = 0;
     private int activeEnemiesCount = 0;
@@ -23,14 +26,19 @@ public class Hatch : MonoBehaviour
         targetPosition = transform.position + Vector3.up * openHeight;
         activeEnemiesCount = FindObjectsByType<enemydamag>(FindObjectsSortMode.None).Length;
 
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
         if (targetTilemap == null)
         {
             targetTilemap = FindFirstObjectByType<Tilemap>();
         }
 
-        PlayerTileAnimator animator = FindFirstObjectByType<PlayerTileAnimator>();
+        PlayerTileAnimator playerAnimator = FindFirstObjectByType<PlayerTileAnimator>();
 
-        if (targetTilemap != null && animator != null)
+        if (targetTilemap != null && playerAnimator != null)
         {
             targetTilemap.CompressBounds();
             BoundsInt bounds = targetTilemap.cellBounds;
@@ -40,15 +48,13 @@ public class Hatch : MonoBehaviour
                 if (targetTilemap.HasTile(pos))
                 {
                     TileBase tile = targetTilemap.GetTile(pos);
-                    if (animator.IsInitialTile(tile))
+                    if (playerAnimator.IsInitialTile(tile))
                     {
                         totalTilesToActivate++;
                     }
                 }
             }
         }
-
-        Debug.Log($"[Люк] Старт уровня! Найдено ВСЕГО блоков на карте: {totalTilesToActivate}. Врагов: {activeEnemiesCount}");
     }
 
     void Update()
@@ -67,7 +73,6 @@ public class Hatch : MonoBehaviour
     {
         if (activatedPositions.Add(position))
         {
-            Debug.Log($"[Люк] Блок активирован! Осталось зажечь: {totalTilesToActivate - activatedPositions.Count}");
             CheckConditions();
         }
     }
@@ -75,16 +80,26 @@ public class Hatch : MonoBehaviour
     public void OnEnemyDestroyed()
     {
         activeEnemiesCount--;
-        Debug.Log($"[Люк] Враг повержен! Осталось врагов: {activeEnemiesCount}");
         CheckConditions();
     }
 
     private void CheckConditions()
     {
-        if (activatedPositions.Count >= totalTilesToActivate && activeEnemiesCount <= 0)
+        if (activatedPositions.Count >= totalTilesToActivate && activeEnemiesCount <= 0 && !shouldOpen)
         {
-            shouldOpen = true;
-            Debug.Log("[Люк] ВСЕ УСЛОВИЯ ВЫПОЛНЕНЫ! ОТКРЫВАЮСЬ!");
+            StartCoroutine(OpenProcess());
         }
+    }
+
+    private IEnumerator OpenProcess()
+    {
+        if (animator != null)
+        {
+            animator.SetTrigger("Open");
+        }
+
+        yield return new WaitForSeconds(animationDuration);
+
+        shouldOpen = true;
     }
 }
