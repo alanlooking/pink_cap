@@ -10,7 +10,7 @@ public class movement : MonoBehaviour
     [Tooltip("Как быстро разгоняется (чем выше, тем быстрее наберет макс. скорость)")]
     public float acceleration = 20f;
     [Tooltip("Как быстро тормозит / скользит (чем ниже, тем длиннее тормозной путь)")]
-    public float deceleration = 15f;
+    public float deceleration = 19f;
 
     private Rigidbody2D rb;
     private Animator animator;
