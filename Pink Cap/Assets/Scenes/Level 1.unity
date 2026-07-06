@@ -8857,6 +8857,10 @@ PrefabInstance:
       propertyPath: deathCircleRect
       value: 
       objectReference: {fileID: 968989827}
+    - target: {fileID: 6380649937749386184, guid: a78c515c113b7464687bea8316fa4687, type: 3}
+      propertyPath: mainMenuSceneName
+      value: MainMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 7775332021242227510, guid: a78c515c113b7464687bea8316fa4687, type: 3}
       propertyPath: m_Name
       value: Hero
@@ -8921,6 +8925,10 @@ PrefabInstance:
     - target: {fileID: 1061574691252363155, guid: 8c3a225bf81413f429e0396dd6e3c650, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546084007076810943, guid: 8c3a225bf81413f429e0396dd6e3c650, type: 3}
+      propertyPath: nextSceneName
+      value: Level 2
       objectReference: {fileID: 0}
     - target: {fileID: 3546084007076810943, guid: 8c3a225bf81413f429e0396dd6e3c650, type: 3}
       propertyPath: fadeCanvasGroup

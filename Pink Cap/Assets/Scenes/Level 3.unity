@@ -11419,6 +11419,10 @@ PrefabInstance:
       propertyPath: deathCircleRect
       value: 
       objectReference: {fileID: 271973417}
+    - target: {fileID: 6380649937749386184, guid: a78c515c113b7464687bea8316fa4687, type: 3}
+      propertyPath: mainMenuSceneName
+      value: MainMenu
+      objectReference: {fileID: 0}
     - target: {fileID: 7775332021242227510, guid: a78c515c113b7464687bea8316fa4687, type: 3}
       propertyPath: m_Name
       value: Hero
